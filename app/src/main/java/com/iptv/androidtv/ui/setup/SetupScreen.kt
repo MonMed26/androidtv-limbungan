@@ -55,7 +55,7 @@ fun SetupScreen(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .width(520.dp)
+                .width(680.dp)
                 .background(
                     color = DarkSurface.copy(alpha = 0.8f),
                     shape = RoundedCornerShape(24.dp)
@@ -90,71 +90,75 @@ fun SetupScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // URL Input
-            OutlinedTextField(
-                value = uiState.url,
-                onValueChange = viewModel::onUrlChanged,
-                label = { Text("Playlist URL") },
-                placeholder = { Text("http://192.168.20.200:2603/playlist.m3u") },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
-                keyboardActions = KeyboardActions(
-                    onGo = {
-                        if (!uiState.isLoading && uiState.url.isNotBlank()) {
-                            viewModel.loadPlaylist(onSetupComplete)
-                        }
-                    }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .focusRequester(focusRequester),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = TextPrimary,
-                    unfocusedTextColor = TextPrimary,
-                    focusedBorderColor = AccentBlue,
-                    unfocusedBorderColor = TextMuted,
-                    focusedLabelColor = AccentBlue,
-                    unfocusedLabelColor = TextSecondary,
-                    cursorColor = AccentBlue,
-                    focusedContainerColor = CardBackground,
-                    unfocusedContainerColor = CardBackground
-                ),
-                shape = RoundedCornerShape(12.dp)
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Connect Button
-            Button(
-                onClick = { viewModel.loadPlaylist(onSetupComplete) },
-                enabled = !uiState.isLoading && uiState.url.isNotBlank(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                shape = ButtonDefaults.shape(shape = RoundedCornerShape(12.dp)),
-                colors = ButtonDefaults.colors(
-                    containerColor = AccentBlue,
-                    contentColor = Color.White,
-                    focusedContainerColor = FocusBorder,
-                    focusedContentColor = DarkBackground
-                )
+            // URL Input and Save Button
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                if (uiState.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(24.dp),
-                        color = Color.White,
-                        strokeWidth = 2.dp
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text("Connecting...", fontSize = 18.sp)
-                } else {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Connect", fontSize = 18.sp)
+                OutlinedTextField(
+                    value = uiState.url,
+                    onValueChange = viewModel::onUrlChanged,
+                    label = { Text("Playlist URL") },
+                    placeholder = { Text("http://192.168.20.200:2603/playlist.m3u") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
+                    keyboardActions = KeyboardActions(
+                        onGo = {
+                            if (!uiState.isLoading && uiState.url.isNotBlank()) {
+                                viewModel.loadPlaylist(onSetupComplete)
+                            }
+                        }
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(focusRequester),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = TextPrimary,
+                        unfocusedTextColor = TextPrimary,
+                        focusedBorderColor = AccentBlue,
+                        unfocusedBorderColor = TextMuted,
+                        focusedLabelColor = AccentBlue,
+                        unfocusedLabelColor = TextSecondary,
+                        cursorColor = AccentBlue,
+                        focusedContainerColor = CardBackground,
+                        unfocusedContainerColor = CardBackground
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                // Connect Button
+                Button(
+                    onClick = { viewModel.loadPlaylist(onSetupComplete) },
+                    enabled = !uiState.isLoading && uiState.url.isNotBlank(),
+                    modifier = Modifier.padding(top = 8.dp),
+                    shape = ButtonDefaults.shape(shape = RoundedCornerShape(12.dp)),
+                    colors = ButtonDefaults.colors(
+                        containerColor = AccentBlue,
+                        contentColor = Color.White,
+                        focusedContainerColor = FocusBorder,
+                        focusedContentColor = DarkBackground
+                    ),
+                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 18.dp)
+                ) {
+                    if (uiState.isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = Color.White,
+                            strokeWidth = 2.dp
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text("Connect...", fontSize = 16.sp)
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Save & Connect", fontSize = 16.sp)
+                    }
                 }
             }
 
