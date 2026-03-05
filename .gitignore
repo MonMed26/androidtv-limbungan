@@ -1,0 +1,16 @@
+# Gradle files
+.gradle/
+build/
+*/build/
+
+# Local configuration file (khusus komputer lokal, tidak boleh masuk Git)
+local.properties
+
+# IntelliJ IDEA / Android Studio files
+.idea/
+*.iml
+*.iws
+
+# MacOS/Windows junk files
+.DS_Store
+Thumbs.db
